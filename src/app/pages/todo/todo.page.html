@@ -10,12 +10,26 @@
       <ion-title size="large">My tasks</ion-title>
     </ion-toolbar>
     <ion-toolbar>
-      <ion-searchbar placeholder="Search my tasks"></ion-searchbar>
+      <ion-searchbar
+        placeholder="Search my tasks"
+        [value]="searchText()"
+        (ionInput)="searchText.set($event.detail.value ?? '')"
+      ></ion-searchbar>
     </ion-toolbar>
   </ion-header>
 
   <ion-list>
-    @for(task of tasks; track 'id') {
+    @for(char of characters(); track 'id'){
+    <ion-item>
+      <ion-avatar slot="start">
+        <img [src]="char.image" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{char.name}}</h2>
+        <p>{{char.species}}</p>
+      </ion-label>
+    </ion-item>
+    } @for(task of filteredTasks(); track 'id') {
     <ion-item
       lines="full"
       button
@@ -48,3 +62,8 @@
     }
   </ion-list>
 </ion-content>
+<ion-fab vertical="bottom" horizontal="end" (click)="addTodo()">
+  <ion-fab-button>
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
